@@ -10,6 +10,19 @@ import { Loading } from "./Loading";
 import { TransactionErrorMessage } from "./TransactionErrorMessage";
 import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
 
+import {
+  Box,
+  Flex,
+  Form,
+  Input,
+  Select,
+  Field,
+  Button,
+  Text,
+  Checkbox,
+  Radio
+} from "rimble-ui";
+
 
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 
@@ -82,6 +95,102 @@ export class DeviceList extends React.Component {
 
     return (
       <div className="container p-4">
+      <Box p={4}>
+        <Box>
+          <Form onSubmit={this.onFormSubmit}>
+            <Flex mx={-3} flexWrap={"wrap"}>
+              <Box width={[1, 1, 1/2]} px={3}>
+                <Field label="Plain Input"  width={1}>
+                  <Input
+                    type="text"
+                    required // set required attribute to use brower's HTML5 input validation
+                    // onChange={handleInput}
+                    // value={inputValue}
+                    width={1}
+                  />
+                </Field>
+              </Box>
+              {/* <Box width={[1, 1, 1/2]} px={3}>
+                <Field label="Form Email Input" validated={validated} width={1}>
+                  <Form.Input
+                    type="email"
+                    required // set required attribute to use brower's HTML5 input validation
+                    onChange={handleFormInput}
+                    value={formInputValue}
+                    width={1}
+                  />
+                </Field>
+              </Box> */}
+            </Flex>
+            {/* <Flex mx={-3} flexWrap={"wrap"}>
+              <Box width={[1, 1, 1/2]} px={3}>
+                <Field label="Select Input" validated={validated} width={1}>
+                  <Select
+                    options={[
+                      { value: "", label: ""},
+                      { value: "eth", label: "Ethereum" },
+                      { value: "btc", label: "Bitcoin" },
+                      { value: "gno", label: "Gnosis" },
+                      { value: "gnt", label: "Golem" },
+                      { value: "rep", label: "Augur" }
+                    ]}
+                    value={selectValue}
+                    onChange={handleSelect}
+                    required // set required attribute to use brower's HTML5 input validation
+                    width={1}
+                  />
+                </Field>
+              </Box>
+            </Flex>
+            
+            
+            <Box>
+              <Field label="Checkbox Input" validated={validated}>
+                <Form.Check
+                  value={checkboxValue}
+                  onChange={handleCheckbox}
+                  required // set required attribute to use brower's HTML5 input validation
+                />
+              </Field>
+            </Box>
+            <Box>
+              <Field label="Radio Input" validated={validated}>
+                <Radio
+                  label="Radio 1"
+                  my={2}
+                  value={"radio1"}
+                  checked={radioValue === "radio1"}
+                  onChange={handleRadio}
+                  required
+                />
+                <Radio
+                  label="Radio 2"
+                  my={2}
+                  value={"radio2"}
+                  checked={radioValue === "radio2"}
+                  onChange={handleRadio}
+                />
+                <Radio
+                  label="Radio 3"
+                  my={2}
+                  value={"radio3"}
+                  checked={radioValue === "radio3"}
+                  onChange={handleRadio}
+                />
+              </Field>
+            </Box> */}
+            <Box>
+              {/* Use the validated state to update UI */}
+              <Button type="submit">
+                Submit Form
+              </Button>
+            </Box>
+          </Form>
+
+        </Box>
+      </Box>
+
+
         <div className="row">
             <div className="col-12">
                 <form onSubmit={this.onFormSubmit}>

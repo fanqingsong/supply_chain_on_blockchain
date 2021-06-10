@@ -6,7 +6,6 @@ import React from "react";
 import { NoWalletDetected } from "./NoWalletDetected";
 
 import { DeviceList } from "./DeviceList";
-import { Token } from "./Token";
 
 export class Dapp extends React.Component {
   constructor(props) {

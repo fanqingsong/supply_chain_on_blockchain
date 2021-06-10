@@ -31,5 +31,9 @@
     "ethereum-waffle": "^2.4.1",
     "ethers": "^4.0.46",
     "husky": "^4.2.5"
+  },
+  "dependencies": {
+    "rimble-ui": "^0.14.0",
+    "styled-components": "^5.3.0"
   }
 }
