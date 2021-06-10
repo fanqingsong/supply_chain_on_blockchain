@@ -1,3 +1,11 @@
+# Target
+
+This project will implement supplier and manufactor part to demo the blockchain application in supply chain management.
+
+https://kamalkishorm.github.io/Blockchain_SupplyChain/
+
+
+
 # Buidler Hackathon Boilerplate
 
 This repository contains a sample project that you can use as the starting point
