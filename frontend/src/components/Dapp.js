@@ -81,15 +81,20 @@ export class Dapp extends React.Component {
             <Card width={"auto"} mx={"auto"} px={[3, 3, 4]}>
               <Heading>Menu</Heading>
 
-              <Box>
-                <Box pt={3}>
+              <Box pt={3}>
+                <Box>
                   <Link fontSize="large" href="#!" title="This link goes supplier page">
                     Supplier
                   </Link>
                 </Box>
-                <Box pt={3}>
+                <Box>
                   <Link fontSize="large" href="#!" title="This link goes manufacturer page">
                     Manufacturer
+                  </Link>
+                </Box>
+                <Box>
+                  <Link fontSize="large" href="#!" title="This link goes manufacturer page">
+                    Tracker
                   </Link>
                 </Box>
               </Box>
