@@ -7,6 +7,28 @@ import { NoWalletDetected } from "./NoWalletDetected";
 
 import { DeviceList } from "./DeviceList";
 
+
+import {
+  Box,
+  Flex,
+  Image,
+  Card,
+  Heading,
+  Link,
+  Form,
+  Input,
+  Select,
+  Field,
+  Button,
+  Text,
+  Checkbox,
+  Radio
+} from "rimble-ui";
+
+
+import blockchainImage from "../asset/Blockchain-Icon.png"
+
+
 export class Dapp extends React.Component {
   constructor(props) {
     super(props);
@@ -30,10 +52,60 @@ export class Dapp extends React.Component {
 
     // If everything is loaded, we render the application.
     return (
-      <div>
-        <DeviceList></DeviceList>
-        {/* <Token></Token> */}
-      </div>
+      <Box p={4}>
+        <Flex justifyContent='center'>
+          <Box width={0.2}>
+            <Image
+                  alt="random unsplash image"
+                  borderRadius={32}
+                  height="200px"
+                  src={blockchainImage}
+                />
+          </Box>
+
+          <Box width={0.8} >
+            <Card width={"auto"} mx={"auto"} px={[3, 3, 4]}>
+              <Heading color={"Blue"}>SupplyChain on BlockChain</Heading>
+
+              <Box>
+                <Text mb={4}>
+                  Welcome to Supply Chain System, Powered by ehtereum(BlockChain Technology).
+                </Text>
+              </Box>
+            </Card>
+          </Box>
+        </Flex>
+
+        <Flex>
+          <Box width={0.2}>
+            <Card width={"auto"} mx={"auto"} px={[3, 3, 4]}>
+              <Heading>Menu</Heading>
+
+              <Box>
+                <Box pt={3}>
+                  <Link fontSize="large" href="#!" title="This link goes supplier page">
+                    Supplier
+                  </Link>
+                </Box>
+                <Box pt={3}>
+                  <Link fontSize="large" href="#!" title="This link goes manufacturer page">
+                    Manufacturer
+                  </Link>
+                </Box>
+              </Box>
+            </Card>
+          </Box>
+          <Box width={0.8}>
+            <Card>
+              <Box width={0.5} px={80} bg="Azure">
+                  <DeviceList></DeviceList>
+              </Box>              
+            </Card>
+          </Box>
+        </Flex>
+        
+      </Box>
+
     );
   }
 
