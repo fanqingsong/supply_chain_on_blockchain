@@ -3,10 +3,10 @@ import React from "react";
 // All the logic of this dapp is contained in the Dapp component.
 // These other components are just presentational ones: they don't have any
 // logic. They just render HTML.
-import { NoWalletDetected } from "./NoWalletDetected";
+import { NoWalletDetected } from "./components/NoWalletDetected";
 
-import { DeviceList } from "./DeviceList";
-
+import Menus from "./Menus"
+import Routes from "./Routes";
 
 import {
   Box,
@@ -26,7 +26,7 @@ import {
 } from "rimble-ui";
 
 
-import blockchainImage from "../asset/Blockchain-Icon.png"
+import blockchainImage from "./asset/Blockchain-Icon.png"
 
 
 export class Dapp extends React.Component {
@@ -78,39 +78,15 @@ export class Dapp extends React.Component {
 
         <Flex>
           <Box width={0.2}>
-            <Card width={"auto"} mx={"auto"} px={[3, 3, 4]}>
-              <Heading>Menu</Heading>
-
-              <Box pt={3}>
-                <Box>
-                  <Link fontSize="large" href="#!" title="This link goes supplier page">
-                    Supplier
-                  </Link>
-                </Box>
-                <Box>
-                  <Link fontSize="large" href="#!" title="This link goes manufacturer page">
-                    Manufacturer
-                  </Link>
-                </Box>
-                <Box>
-                  <Link fontSize="large" href="#!" title="This link goes manufacturer page">
-                    Tracker
-                  </Link>
-                </Box>
-              </Box>
-            </Card>
+            <Menus />
           </Box>
           <Box width={0.8}>
             <Card>
-              <Box width={0.5} px={80} bg="Azure">
-                  <DeviceList></DeviceList>
-              </Box>              
+              <Routes />
             </Card>
           </Box>
-        </Flex>
-        
+        </Flex>        
       </Box>
-
     );
   }
 

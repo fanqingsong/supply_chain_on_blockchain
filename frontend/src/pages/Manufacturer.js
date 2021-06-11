@@ -5,10 +5,10 @@ import { ethers } from "ethers";
 import DeviceListArtifact from "../contracts/DeviceList.json";
 import contractAddress from "../contracts/contract-address.json";
 
-import { Loading } from "./Loading";
+import { Loading } from "../components/Loading";
 
-import { TransactionErrorMessage } from "./TransactionErrorMessage";
-import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
+import { TransactionErrorMessage } from "../components/TransactionErrorMessage";
+import { WaitingForTransactionMessage } from "../components/WaitingForTransactionMessage";
 
 import {
   Box,
@@ -29,7 +29,7 @@ import {
 
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 
-export class DeviceList extends React.Component {
+export class Manufacturer extends React.Component {
   constructor(props) {
     super(props);
 
@@ -99,36 +99,39 @@ export class DeviceList extends React.Component {
     let newDevice = this.state.newDevice || "";
 
     return (
-      <Box p={4}>
-        <Box>
-          <Form onSubmit={this.onFormSubmit}>
-            <Flex mx={-3} flexWrap={"wrap"}>
-              <Box width={[1, 1, 1]} px={3}>
-                <Field label="Device Name"  width={1}>
-                  <Input
-                    type="text"
-                    required // set required attribute to use brower's HTML5 input validation
-                    onChange={this.onNewDeviceChange}
-                    value={newDevice}
-                    width={1}
-                  />
-                </Field>
+      <Box width={0.8} px={80} bg="Azure">
+        <Box p={4}>
+          <Box>
+            <Form onSubmit={this.onFormSubmit}>
+              <Flex mx={-3} flexWrap={"wrap"}>
+                <Box width={[1, 1, 1]} px={3}>
+                  <Field label="Device Name"  width={1}>
+                    <Input
+                      type="text"
+                      required // set required attribute to use brower's HTML5 input validation
+                      onChange={this.onNewDeviceChange}
+                      value={newDevice}
+                      width={1}
+                    />
+                  </Field>
+                </Box>
+              </Flex>
+              <Box>
+                <Button type="submit" onClick={this.onNewDeviceSubmit}>
+                  Submit Form
+                </Button>
               </Box>
-            </Flex>
-            <Box>
-              <Button type="submit" onClick={this.onNewDeviceSubmit}>
-                Submit Form
-              </Button>
+            </Form>
+            <Box fontSize={4} p={3} width={[1, 1, 1]}>
+                { deviceListData && 
+                    deviceListData.devices.map((oneDevice) =>
+                        <Checkbox key={oneDevice.id.toString()} label={oneDevice.deviceName} checked={oneDevice.completed} onChange={(e)=>this.onDeviceToggle(oneDevice.id)} />
+                    )
+                }
             </Box>
-          </Form>
-          <Box fontSize={4} p={3} width={[1, 1, 1]}>
-              { deviceListData && 
-                  deviceListData.devices.map((oneDevice) =>
-                      <Checkbox key={oneDevice.id.toString()} label={oneDevice.deviceName} checked={oneDevice.completed} onChange={(e)=>this.onDeviceToggle(oneDevice.id)} />
-                  )
-              }
           </Box>
         </Box>
+
       </Box>
     );
   }
