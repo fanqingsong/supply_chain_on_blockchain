@@ -10,9 +10,14 @@ import { Loading } from "./Loading";
 import { TransactionErrorMessage } from "./TransactionErrorMessage";
 import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
 
+import blockchainImage from "../asset/Blockchain-Icon.png"
+
 import {
   Box,
   Flex,
+  Image,
+  Card,
+  Heading,
   Form,
   Input,
   Select,
@@ -95,8 +100,34 @@ export class DeviceList extends React.Component {
 
     let newDevice = this.state.newDevice || "";
 
+    console.log("----------------------")
+    console.log(blockchainImage)
+
+    let color = "red"
+
     return (
       <Box p={4}>
+        <Flex justifyContent='center'>
+          <Image
+                alt="random unsplash image"
+                borderRadius={32}
+                height="200px"
+                src={blockchainImage}
+              />
+
+          <Box p={3} width={1} >
+            <Card width={"auto"} mx={"auto"} px={[3, 3, 4]}>
+              <Heading color={"Blue"}>SupplyChain on BlockChain</Heading>
+
+              <Box>
+                <Text mb={4}>
+                  Welcome to Supply Chain System, Powered by ehtereum(BlockChain Technology).
+                </Text>
+              </Box>
+            </Card>
+          </Box>
+        </Flex>
+
         <Box>
           <Form onSubmit={this.onFormSubmit}>
             <Flex mx={-3} flexWrap={"wrap"}>
