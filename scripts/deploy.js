@@ -32,11 +32,18 @@ async function main() {
   console.log("DeviceList address:", deviceList.address);
 
 
+  const SupplyChain = await ethers.getContractFactory("SupplyChain");
+  const supplyChain = await SupplyChain.deploy();
+  await supplyChain.deployed();
+
+  console.log("SupplyChain address:", supplyChain.address);
+
+
   // We also save the contract's artifacts and address in the frontend directory
-  saveFrontendFiles(token, deviceList);
+  saveFrontendFiles(token, deviceList, supplyChain);
 }
 
-function saveFrontendFiles(token, deviceList) {
+function saveFrontendFiles(token, deviceList, supplyChain) {
   const fs = require("fs");
   const contractsDir = __dirname + "/../frontend/src/contracts";
 
@@ -47,7 +54,8 @@ function saveFrontendFiles(token, deviceList) {
   fs.writeFileSync(
     contractsDir + "/contract-address.json",
     JSON.stringify({ Token: token.address,
-                    DeviceList: deviceList.address }, undefined, 2)
+                    DeviceList: deviceList.address,
+                    SupplyChain: supplyChain.address }, undefined, 2)
   );
 
   fs.copyFileSync(
@@ -58,6 +66,11 @@ function saveFrontendFiles(token, deviceList) {
   fs.copyFileSync(
     __dirname + "/../artifacts/DeviceList.json",
     contractsDir + "/DeviceList.json"
+  );
+
+  fs.copyFileSync(
+    __dirname + "/../artifacts/SupplyChain.json",
+    contractsDir + "/SupplyChain.json"
   );
 }
 

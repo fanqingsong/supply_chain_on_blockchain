@@ -27,6 +27,13 @@ const Menus = () => {
 
             <Box pt={3}>
                 <Box>
+                    <Router_Link to="/usercofig">
+                        <Link fontSize="large" href="#!" title="This link goes supplier page">
+                            User Config
+                        </Link>
+                    </Router_Link>
+                </Box>
+                <Box>
                     <Router_Link to="/supplier">
                         <Link fontSize="large" href="#!" title="This link goes supplier page">
                             Supplier
