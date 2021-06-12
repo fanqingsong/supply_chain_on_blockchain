@@ -35,9 +35,15 @@ export class UserList extends React.Component {
     super(props);
 
     this.initialState = {
+      // for display all users
       UserListData: undefined,
 
-      newDevice: undefined,
+      // for creating new user
+      newUserName: undefined,
+      newUserLocation: undefined,
+      // 0x84fae3d3cba24a97817b2a18c2421d462dbbce9f
+      newUserEtherAddress: undefined,
+      newUserRole: 2,
 
       txBeingSent: undefined,
       transactionError: undefined,
@@ -46,24 +52,63 @@ export class UserList extends React.Component {
 
     this.state = this.initialState;
 
-    this.onNewDeviceChange = this.onNewDeviceChange.bind(this);
-    this.onNewDeviceSubmit = this.onNewDeviceSubmit.bind(this);
+    this.onNewUserNameChange = this.onNewUserNameChange.bind(this);
+    this.onNewUserLocationChange = this.onNewUserLocationChange.bind(this);
+    this.onNewUserEtherAddressChange = this.onNewUserEtherAddressChange.bind(this);
+    this.onNewUserRoleChange = this.onNewUserRoleChange.bind(this);
+    
+    this.onNewUserSubmit = this.onNewUserSubmit.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onDeviceToggle = this.onDeviceToggle.bind(this);
   }
 
-  onNewDeviceChange(e) {
-    let newDevice = e.target.value;
+  onNewUserNameChange(e) {
+    let newUserName = e.target.value;
 
-    this.setState({"newDevice": newDevice})
+    this.setState({"newUserName": newUserName})
   }
 
-  async onNewDeviceSubmit(e) {
-    let newDevice = this.state.newDevice;
+  onNewUserLocationChange(e) {
+    let newUserLocation = e.target.value;
 
-    await this._createDevice(newDevice);
+    this.setState({"newUserLocation": newUserLocation})
+  }
 
-    this.setState({'newDevice':""})
+  onNewUserEtherAddressChange(e) {
+    let newUserEtherAddress = e.target.value;
+
+    this.setState({"newUserEtherAddress": newUserEtherAddress})
+  }
+
+  onNewUserRoleChange(role) {
+    console.log("user change role to", role)
+    let newUserRole = role;
+
+    this.setState({"newUserRole": newUserRole})
+  }
+
+  async onNewUserSubmit(e) {
+    let newUserName = this.state.newUserName;
+    let newUserLocation = this.state.newUserLocation;
+    let newUserEtherAddress = this.state.newUserEtherAddress;
+    let newUserRole = this.state.newUserRole;
+
+    let newUser = {
+      newUserName,
+      newUserLocation,
+      newUserEtherAddress,
+      newUserRole
+    }
+
+    console.log("===============")
+    console.log(newUser)
+
+    await this._createUser(newUser);
+
+    // this.setState({'newUserName':""})
+    // this.setState({'newUserLocation':""})
+    // this.setState({'newUserEtherAddress':""})
+    // this.setState({'newUserRole':1})
 
     this._getUserListData();
   }
@@ -112,71 +157,108 @@ export class UserList extends React.Component {
     console.log("--------------")
     console.log(UserListData);
 
-    let newDevice = this.state.newDevice || "";
+    let newUserName = this.state.newUserName || "";
+    let newUserLocation = this.state.newUserLocation || "";
+    let newUserEtherAddress = this.state.newUserEtherAddress || "";
+    let newUserRole = this.state.newUserRole;
 
     return (
-      <Box width={0.8} px={80} bg="Azure">
-        <Box p={4}>
-          <Table width={1}>
-            <thead>
-              <tr>
-                <th width={0.2}>Name</th>
-                <th width={0.2}>Location</th>
-                <th width={0.4}>EtherAddress</th>
-                <th width={0.2}>Role</th>
-              </tr>
-            </thead>
-            <tbody>
-              { UserListData && 
-                      UserListData.users.map((oneUser, index) =>
-                          <tr key={index.toString()}>
-                            <td><Text width={"60px"} style={{overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap"}} title={oneUser.name}>{oneUser.name}</Text></td>
-                            <td><Text width={"60px"} style={{overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap"}} title={oneUser.location}>{oneUser.location}</Text></td>
-                            <td><Text width={"100px"} style={{overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap"}} title={oneUser.ethAddress}>{oneUser.ethAddress}</Text></td>
-                            <td>
-                              <Text width={"60px"} style={{overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap"}} title={this.translateRole(oneUser.role)}>
-                                {this.translateRole(oneUser.role)}
-                              </Text></td>
-                          </tr>
-                        )
-                  }
-
-              { UserListData && UserListData.userCount>0 || (
-                        <tr>
-                          <td colspan="4" style={{"textAlign":"center"}}>No User</td>
-                        </tr>
-              )}
-            </tbody>
-          </Table>
-
+      <Box width={1}>
+        <Box p={4} bg="Azure">
           <Box>
+            <Heading as={"h3"}>User List</Heading>
+            <Table width={1}>
+              <thead>
+                <tr>
+                  <th width={0.2}>Name</th>
+                  <th width={0.2}>Location</th>
+                  <th width={0.4}>EtherAddress</th>
+                  <th width={0.2}>Role</th>
+                </tr>
+              </thead>
+              <tbody>
+                { UserListData && 
+                        UserListData.users.map((oneUser, index) =>
+                            <tr key={index.toString()}>
+                              <td><Text width={"60px"} style={{overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap"}} title={oneUser.name}>{oneUser.name}</Text></td>
+                              <td><Text width={"90px"} style={{overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap"}} title={oneUser.location}>{oneUser.location}</Text></td>
+                              <td><Text width={"200px"} style={{overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap"}} title={oneUser.ethAddress}>{oneUser.ethAddress}</Text></td>
+                              <td>
+                                <Text width={"60px"} style={{overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap"}} title={this.translateRole(oneUser.role)}>
+                                  {this.translateRole(oneUser.role)}
+                                </Text></td>
+                            </tr>
+                          )
+                    }
+
+                { UserListData && UserListData.userCount>0 || (
+                          <tr>
+                            <td colspan="4" style={{"textAlign":"center"}}>No User</td>
+                          </tr>
+                )}
+              </tbody>
+            </Table>
+          </Box>
+
+          <Box>&nbsp;</Box>
+          <Box mt={40}>
+            <Heading as={"h3"}>Create User</Heading>
             <Form onSubmit={this.onFormSubmit}>
               <Flex mx={-3} flexWrap={"wrap"}>
                 <Box width={[1, 1, 1]} px={3}>
-                  <Field label="Device Name"  width={1}>
+                  <Field label="Name"  width={1}>
                     <Input
                       type="text"
                       required // set required attribute to use brower's HTML5 input validation
-                      onChange={this.onNewDeviceChange}
-                      value={newDevice}
+                      onChange={this.onNewUserNameChange}
+                      value={newUserName}
                       width={1}
                     />
                   </Field>
                 </Box>
+                <Box width={[1, 1, 1]} px={3}>
+                  <Field label="Location"  width={1}>
+                    <Input
+                      type="text"
+                      required // set required attribute to use brower's HTML5 input validation
+                      onChange={this.onNewUserLocationChange}
+                      value={newUserLocation}
+                      width={1}
+                    />
+                  </Field>
+                </Box>
+                <Box width={[1, 1, 1]} px={3}>
+                  <Field label="EtherAddress"  width={1}>
+                    <Input
+                      type="text"
+                      required // set required attribute to use brower's HTML5 input validation
+                      onChange={this.onNewUserEtherAddressChange}
+                      value={newUserEtherAddress}
+                      width={1}
+                    />
+                  </Field>
+                </Box>
+                <Box width={[1, 1, 1]} px={3}>
+                  <Field label="Role" width={1}>
+                    <Box required={true}>
+                      <Radio label="Supplier"
+                        onChange={this.onNewUserRoleChange.bind(this, 2)}
+                        checked={newUserRole===2?true:false}
+                        />
+                      <Radio label="Manufacturer" 
+                        onChange={this.onNewUserRoleChange.bind(this, 3)}
+                        checked={newUserRole===3?true:false}
+                        />
+                    </Box>
+                  </Field>
+                </Box>
               </Flex>
               <Box>
-                <Button type="submit" onClick={this.onNewDeviceSubmit}>
-                  Submit Form
+                <Button type="submit" onClick={this.onNewUserSubmit}>
+                  Create
                 </Button>
               </Box>
             </Form>
-            {/* <Box fontSize={4} p={3} width={[1, 1, 1]}>
-                { UserListData && 
-                    UserListData.devices.map((oneDevice) =>
-                        <Checkbox key={oneDevice.id.toString()} label={oneDevice.deviceName} checked={oneDevice.completed} onChange={(e)=>this.onDeviceToggle(oneDevice.id)} />
-                    )
-                }
-            </Box> */}
           </Box>
         </Box>
 
@@ -270,11 +352,16 @@ export class UserList extends React.Component {
     this.setState({ UserListData: { userCount, users } });
   }
 
-  async _createDevice(deviceName) {
+  async _createUser(newUser) {
     try {
       this._dismissTransactionError();
 
-      const tx = await this._SupplyChain.createDevice(deviceName);
+      let name = newUser.newUserName
+      let etherAddress = newUser.newUserEtherAddress
+      let location = newUser.newUserLocation
+      let role = newUser.newUserRole
+
+      const tx = await this._SupplyChain.registerUser(etherAddress, name, location, role);
 
       this.setState({ txBeingSent: tx.hash });
 
