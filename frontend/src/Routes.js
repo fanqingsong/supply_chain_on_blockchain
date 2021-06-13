@@ -21,7 +21,7 @@ const Routes = () => {
       <Route path="/tracker" exact>
         <Tracker />
       </Route>
-      <Redirect to="/userconfig" />
+      {/* <Redirect to="/tracker" /> */}
     </Switch>
   );
 };

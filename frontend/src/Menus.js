@@ -20,38 +20,51 @@ import {
 
 import { Link as Router_Link } from "react-router-dom";
 
-const Menus = () => {
+const Menus = (props) => {
+    console.log("props=", props)
+
+    let userRole = props.userRole;
+
     return (
         <Card width={"auto"} mx={"auto"} px={[3, 3, 4]}>
             <Heading>Menu</Heading>
 
             <Box pt={3}>
-                <Box>
-                    <Router_Link to="/usercofig">
-                        <Link fontSize="large" href="#!" title="This link goes supplier page">
-                            User Config
-                        </Link>
-                    </Router_Link>
-                </Box>
-                <Box>
-                    <Router_Link to="/supplier">
-                        <Link fontSize="large" href="#!" title="This link goes supplier page">
-                            Supplier
-                        </Link>
-                    </Router_Link>
-                </Box>
-                <Box>
-                    <Router_Link to="/manufacturer">
-                        <Link fontSize="large" href="#!" title="This link goes manufacturer page">
-                            Manufacturer
-                        </Link>
-                    </Router_Link>
-                </Box>
+                {userRole===1 && (
+                    <Box>
+                        <Router_Link to="/userconfig">
+                            <Text fontSize="large" title="This link goes supplier page">
+                                User Config
+                            </Text>
+                        </Router_Link>
+                    </Box>
+                )}
+
+                {userRole===2 && (
+                    <Box>
+                        <Router_Link to="/supplier">
+                            <Text fontSize="large" title="This link goes supplier page">
+                                Supplier
+                            </Text>
+                        </Router_Link>
+                    </Box>
+                )}
+
+                {userRole===3 && (
+                    <Box>
+                        <Router_Link to="/manufacturer">
+                            <Text fontSize="large" title="This link goes manufacturer page">
+                                Manufacturer
+                            </Text>
+                        </Router_Link>
+                    </Box>
+                )}
+
                 <Box>
                     <Router_Link to="/tracker">
-                        <Link fontSize="large" href="#!" title="This link goes manufacturer page">
+                        <Text fontSize="large" title="This link goes manufacturer page">
                             Tracker
-                        </Link>
+                        </Text>
                     </Router_Link>
                 </Box>
             </Box>
