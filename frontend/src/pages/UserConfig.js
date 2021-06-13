@@ -35,6 +35,8 @@ export class UserList extends React.Component {
     super(props);
 
     this.initialState = {
+      contractOwner: undefined,
+
       // for display all users
       UserListData: undefined,
 
@@ -59,7 +61,7 @@ export class UserList extends React.Component {
     
     this.onNewUserSubmit = this.onNewUserSubmit.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.onDeviceToggle = this.onDeviceToggle.bind(this);
+    this.onUserDisabledToggle = this.onUserDisabledToggle.bind(this);
   }
 
   onNewUserNameChange(e) {
@@ -113,23 +115,10 @@ export class UserList extends React.Component {
     this._getUserListData();
   }
 
-  async onDeviceToggle(id) {
-    console.log("==============================enter ondevice");
+  async onUserDisabledToggle(id) {
+    console.log("======enter onUserDisabledToggle id=", id);
 
-    let UserListData = this.state.UserListData;
-    let devices = UserListData.devices;
-
-    devices.forEach(oneDevice => {
-      let _id = oneDevice.id;
-
-      if (id === _id) {
-        oneDevice.completed = !oneDevice.completed;
-      }
-    });
-
-    this.setState({UserListData});
-
-    await this._toggleDevice(id);
+    await this._toggleUserDisabled(id);
 
     this._getUserListData();
   }
@@ -174,6 +163,7 @@ export class UserList extends React.Component {
                   <th width={0.2}>Location</th>
                   <th width={0.4}>EtherAddress</th>
                   <th width={0.2}>Role</th>
+                  <th width={0.2}>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -187,13 +177,18 @@ export class UserList extends React.Component {
                                 <Text width={"60px"} style={{overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap"}} title={this.translateRole(oneUser.role)}>
                                   {this.translateRole(oneUser.role)}
                                 </Text></td>
+                                <td>
+                                  <Button size="small" mr={3} disabled={oneUser.role===1} onClick={this.onUserDisabledToggle.bind(this, oneUser.ethAddress)}>
+                                    {oneUser.disabled===true?"Enable":"Disable"}
+                                  </Button>
+                                </td>
                             </tr>
                           )
                     }
 
                 { UserListData && UserListData.userCount>0 || (
                           <tr>
-                            <td colspan="4" style={{"textAlign":"center"}}>No User</td>
+                            <td colSpan="5" style={{"textAlign":"center"}}>No User</td>
                           </tr>
                 )}
               </tbody>
@@ -288,6 +283,11 @@ export class UserList extends React.Component {
     try {
       await this._SupplyChain.deployed();
 
+      let Owner = await this._SupplyChain.Owner();
+      this.setState({Owner})
+
+      console.log("Owner addr=", Owner);
+
       this._startPollingData();
 
       this._getUserListData();
@@ -338,11 +338,11 @@ export class UserList extends React.Component {
         // console.log(device.completed)
 
         let one_user = {
-            id: i,
             name: user.name,
             location: user.location,
             ethAddress: user.ethAddress,
-            role: user.role
+            role: user.role,
+            disabled: user.disabled
         }
 
         users.push(one_user);
@@ -382,11 +382,11 @@ export class UserList extends React.Component {
     }
   }
 
-  async _toggleDevice(id) {
+  async _toggleUserDisabled(id) {
     try {
       this._dismissTransactionError();
 
-      const tx = await this._SupplyChain.toggleCompleted(id);
+      const tx = await this._SupplyChain.toggleUserDisabled(id);
 
       this.setState({ txBeingSent: tx.hash });
 

@@ -2,8 +2,6 @@ pragma solidity >=0.4.25 <0.6.0;
 
 import './RawMatrials.sol';
 import './Madicine.sol';
-// import './MadicineW_D.sol';
-// import './MadicineD_P.sol';
 
 /// @title Blockchain : Pharmaceutical SupplyChain
 /// @author Kamal Kishor Mehra
@@ -35,8 +33,7 @@ contract SupplyChain {
         norole,
         admin,
         supplier,
-        manufacturer,
-        revoke
+        manufacturer
     }
 
     struct UserInfo {
@@ -44,6 +41,7 @@ contract SupplyChain {
         string location;
         address ethAddress;
         roles role;
+        bool disabled;
     }
 
     /// @notice
@@ -60,13 +58,15 @@ contract SupplyChain {
         string memory name,
         string memory location,
         address ethAddress,
-        roles role
+        roles role,
+        bool disabled
         ) {
         return (
             UsersDetails[User].name,
             UsersDetails[User].location,
             UsersDetails[User].ethAddress,
-            UsersDetails[User].role);
+            UsersDetails[User].role,
+            UsersDetails[User].disabled);
     }
 
     /// @notice
@@ -84,15 +84,15 @@ contract SupplyChain {
         string memory name,
         string memory location,
         address ethAddress,
-        roles role
+        roles role,
+        bool disabled
         ) {
         return getUserInfo(users[index]);
     }
 
 /********************************************** Owner Section *********************************************/
     event UserRegister(address indexed EthAddress, string Name);
-    event UserRoleRevoked(address indexed EthAddress, string Name, uint Role);
-    event UserRoleRessigne(address indexed EthAddress, string Name, uint Role);
+    event UserDisabledToggle(address indexed EthAddress, string Name);
 
     /// @notice
     /// @dev Register New user by Owner
@@ -114,6 +114,7 @@ contract SupplyChain {
         UsersDetails[EthAddress].location = Location;
         UsersDetails[EthAddress].ethAddress = EthAddress;
         UsersDetails[EthAddress].role = roles(Role);
+        UsersDetails[EthAddress].disabled = false;
 
         users.push(EthAddress);
 
@@ -121,26 +122,14 @@ contract SupplyChain {
     }
 
     /// @notice
-    /// @dev Revoke users role
+    /// @dev disable users role
     /// @param userAddress User Ethereum Network Address
-    function revokeRole(address userAddress) public onlyOwner {
+    function toggleUserDisabled(address userAddress) public onlyOwner {
         require(UsersDetails[userAddress].role != roles.norole, "User not registered");
 
-        UsersDetails[userAddress].role = roles(3);
+        UsersDetails[userAddress].disabled = !UsersDetails[userAddress].disabled;
 
-        emit UserRoleRevoked(userAddress, UsersDetails[userAddress].name,uint(UsersDetails[userAddress].role));
-    }
-
-    /// @notice
-    /// @dev Reassigne new role to User
-    /// @param userAddress User Ethereum Network Address
-    /// @param Role Role to assigne
-    function reassigneRole(address userAddress, uint Role) public onlyOwner {
-        require(UsersDetails[userAddress].role != roles.norole, "User not registered");
-
-        UsersDetails[userAddress].role = roles(Role);
-
-        emit UserRoleRessigne(userAddress, UsersDetails[userAddress].name,uint(UsersDetails[userAddress].role));
+        emit UserDisabledToggle(userAddress, UsersDetails[userAddress].name);
     }
 
 /********************************************** Supplier Section ******************************************/
