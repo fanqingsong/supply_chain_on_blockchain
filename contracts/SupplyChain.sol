@@ -139,20 +139,17 @@ contract SupplyChain {
     event RawSupplyInit(
         address indexed ProductID,
         address indexed Supplier,
-        address Shipper,
         address indexed Receiver
     );
 
     /// @notice
     /// @dev Create new raw package by Supplier
-    /// @param Des Transporter Ethereum Network Address
     /// @param Rcvr Manufacturer Ethereum Network Address
     function createRawPackage(
         bytes32 Des,
         bytes32 FN,
         bytes32 Loc,
         uint Quant,
-        address Shpr,
         address Rcvr
         ) public {
         require(
@@ -166,13 +163,12 @@ contract SupplyChain {
             FN,
             Loc,
             Quant,
-            Shpr,
             Rcvr
             );
 
         supplierRawProductInfo[msg.sender].push(address(rawData));
 
-        emit RawSupplyInit(address(rawData), msg.sender, Shpr, Rcvr);
+        emit RawSupplyInit(address(rawData), msg.sender, Rcvr);
     }
 
     /// @notice
