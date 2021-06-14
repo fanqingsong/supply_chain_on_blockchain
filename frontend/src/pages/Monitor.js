@@ -29,7 +29,7 @@ import {
 
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 
-export class Tracker extends React.Component {
+export class Monitor extends React.Component {
   constructor(props) {
     super(props);
 

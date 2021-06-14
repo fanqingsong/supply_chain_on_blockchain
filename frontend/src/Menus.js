@@ -61,9 +61,9 @@ const Menus = (props) => {
                 )}
 
                 <Box>
-                    <Router_Link to="/tracker">
+                    <Router_Link to="/monitor">
                         <Text fontSize="large" title="This link goes manufacturer page">
-                            Tracker
+                            Monitor
                         </Text>
                     </Router_Link>
                 </Box>

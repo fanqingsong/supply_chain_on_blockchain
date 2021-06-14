@@ -33,6 +33,7 @@ import {
 
 import blockchainImage from "./asset/Blockchain-Icon.png"
 
+import { Link as Router_Link } from "react-router-dom";
 
 export class Dapp extends React.Component {
   constructor(props) {
@@ -109,12 +110,14 @@ export class Dapp extends React.Component {
       <Box p={4}>
         <Flex justifyContent='center'>
           <Box width={0.2}>
-            <Image
-                  alt="random unsplash image"
-                  borderRadius={32}
-                  height="200px"
-                  src={blockchainImage}
-                />
+            <Router_Link to="/tracker">
+              <Image
+                    alt="random unsplash image"
+                    borderRadius={32}
+                    height="200px"
+                    src={blockchainImage}
+                  />
+            </Router_Link>
           </Box>
 
           <Box width={0.8} >

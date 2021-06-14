@@ -136,8 +136,6 @@ export class UserList extends React.Component {
       return "supplier";
     } else if (role === 3) {
       return "manufacturer";
-    } else if (role === 4) {
-      return "revoked"
     }
   }
 

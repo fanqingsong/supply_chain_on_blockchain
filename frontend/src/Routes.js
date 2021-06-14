@@ -4,7 +4,7 @@ import { DeviceList } from "./pages/DeviceList";
 import { UserList } from "./pages/UserConfig";
 import { Supplier } from "./pages/Supplier";
 import { Manufacturer } from "./pages/Manufacturer";
-import { Tracker } from "./pages/Tracker";
+import { Monitor } from "./pages/Monitor";
 
 const Routes = () => {
   return (
@@ -18,10 +18,10 @@ const Routes = () => {
       <Route path="/manufacturer" exact>
         <Manufacturer />
       </Route>
-      <Route path="/tracker" exact>
-        <Tracker />
+      <Route path="/monitor" exact>
+        <Monitor />
       </Route>
-      {/* <Redirect to="/tracker" /> */}
+      <Redirect to="/monitor" />
     </Switch>
   );
 };

@@ -179,6 +179,7 @@ contract SupplyChain {
             UsersDetails[msg.sender].role == roles.supplier,
             "Only Supplier Can call this function "
         );
+
         return supplierRawProductInfo[msg.sender].length;
     }
 
@@ -191,6 +192,7 @@ contract SupplyChain {
             UsersDetails[msg.sender].role == roles.supplier,
             "Only Supplier Can call this function "
         );
+        
         return supplierRawProductInfo[msg.sender][index];
     }
 
