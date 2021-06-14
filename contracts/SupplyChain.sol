@@ -196,6 +196,23 @@ contract SupplyChain {
         return supplierRawProductInfo[msg.sender][index];
     }
 
+    function getPackageInfoById(address packageId) public view returns(
+        bytes32 Des,
+        bytes32 FN,
+        bytes32 Loc,
+        uint Quant,
+        address Rcvr,
+        address Splr
+    ){
+        return RawMatrials(packageId).getSuppliedRawMatrials();
+    }
+
+    function getPackageStatusById(address packageId) public view returns(
+        uint
+    ) {
+        return RawMatrials(packageId).getRawMatrialsStatus();
+    }
+
 /********************************************** Manufacturer Section ******************************************/
     /// @notice
     mapping(address => address[]) RawPackagesAtManufacturer;

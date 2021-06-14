@@ -17,6 +17,7 @@ import {
   Card,
   Table,
   Heading,
+  Tooltip,
   Form,
   Input,
   Select,
@@ -137,16 +138,44 @@ export class Supplier extends React.Component {
     e.preventDefault();
   }
 
-  translateRole(role) {
-    if (role === 0) {
-      return "norole";
-    } else if (role === 1) {
-      return "admin";
-    } else if (role === 2) {
-      return "supplier";
-    } else if (role === 3) {
-      return "manufacturer";
+  translateStatus(packageStatus) {
+    console.log("packageStatus=", packageStatus)
+    packageStatus = packageStatus.toNumber();
+
+    if (packageStatus === 0) {
+      return "not received";
+    } else if (packageStatus === 1) {
+      return "received";
+    } else {
+      return "";
     }
+  }
+
+  getPackageInfoStr(onePackage) {
+    let packageInfo = onePackage.packageInfo;
+    console.log(packageInfo);
+
+    let description = packageInfo.Des;
+    description = ethers.utils.parseBytes32String(description);
+    
+    let factoryName = packageInfo.FN;
+    factoryName = ethers.utils.parseBytes32String(factoryName);
+
+    let location = packageInfo.Loc;
+    location = ethers.utils.parseBytes32String(location);
+
+    let quantity = packageInfo.Quant;
+    let receiver = packageInfo.Rcvr;
+    let supplier = packageInfo.Splr;
+
+    return `
+      Description: ${description}
+      factoryName: ${factoryName}
+      Location: ${location}
+      Quantity: ${quantity}
+      Receiver: ${receiver}
+      Supplier: ${supplier}
+    `
   }
 
   render() {
@@ -170,23 +199,21 @@ export class Supplier extends React.Component {
               <thead>
                 <tr>
                   <th width={0.2}>Package Address</th>
-                  {/* <th width={0.2}>Location</th>
-                  <th width={0.4}>EtherAddress</th>
-                  <th width={0.2}>Role</th> */}
+                  <th width={0.2}>Status</th>
                 </tr>
               </thead>
               <tbody>
                 { PackageListData && 
                         PackageListData.packages.map((onePackage, index) =>
                             <tr key={index.toString()}>
-                              <td><Text style={{overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap"}} title={onePackage.packageId}>{onePackage.packageId}</Text></td>
-                              {/* <td><Text width={"90px"} style={{overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap"}} title={oneUser.location}>{oneUser.location}</Text></td>
-                              <td><Text width={"200px"} style={{overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap"}} title={oneUser.ethAddress}>{oneUser.ethAddress}</Text></td>
                               <td>
-                                <Text width={"60px"} style={{overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap"}} title={this.translateRole(oneUser.role)}>
-                                  {this.translateRole(oneUser.role)}
+                                <Text style={{overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap"}} title={this.getPackageInfoStr(onePackage)}>{onePackage.packageId}</Text>
+                              </td>
+                              <td>
+                                <Text style={{overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap"}} title={this.translateStatus(onePackage.packageStatus)}>
+                                  {this.translateStatus(onePackage.packageStatus)}
                                 </Text>
-                              </td> */}
+                              </td>
                             </tr>
                           )
                     }
@@ -388,8 +415,11 @@ export class Supplier extends React.Component {
     for(let i=0; i<packageCount; i++) {
         const packageId = await this._SupplyChain.getPackageIdByIndexS(i);
 
-        console.log(packageId)
-        packages.push({packageId})
+        const packageInfo = await this._SupplyChain.getPackageInfoById(packageId);
+        const packageStatus = await this._SupplyChain.getPackageStatusById(packageId);
+
+        console.log(packageId, packageInfo, packageStatus)
+        packages.push({packageId, packageStatus, packageInfo})
     }
 
     console.log("---before setState -----")

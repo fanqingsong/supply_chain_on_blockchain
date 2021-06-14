@@ -315,6 +315,7 @@ export class UserList extends React.Component {
 
   _stopPollingData() {
     clearInterval(this._pollDataInterval);
+    
     this._pollDataInterval = undefined;
   }
 

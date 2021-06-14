@@ -4,6 +4,16 @@ This project will implement supplier and manufactor part to demo the blockchain 
 
 https://kamalkishorm.github.io/Blockchain_SupplyChain/
 
+# Requirements
+
+Contract Owner:
+0xc783df8a850f42e7F7e57013759C285caa701eB6
+
+Supplier:
+0x84fae3d3cba24a97817b2a18c2421d462dbbce9f
+
+Manufacturer:
+0x26C43a1D431A4e5eE86cD55Ed7Ef9Edf3641e901
 
 
 # Buidler Hackathon Boilerplate
