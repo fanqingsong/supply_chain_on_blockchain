@@ -1,7 +1,7 @@
 pragma solidity >=0.4.25 <0.6.0;
 
 import './RawMatrials.sol';
-import './Madicine.sol';
+import './Product.sol';
 
 /// @title Blockchain : Pharmaceutical SupplyChain
 /// @author Kamal Kishor Mehra
@@ -30,10 +30,11 @@ contract SupplyChain {
 
 /********************************************** User Section **********************************************/
     enum roles {
-        norole,
-        admin,
-        supplier,
-        manufacturer
+        norole, // 0
+        admin, // 1
+        supplier, //2
+        manufacturer, //3
+        customer //4
     }
 
     struct UserInfo {
@@ -183,6 +184,10 @@ contract SupplyChain {
         return supplierRawProductInfo[msg.sender].length;
     }
 
+    function getPackagesCountS_SID(address supplierId) public view returns (uint count){
+        return supplierRawProductInfo[supplierId].length;
+    }
+
     /// @notice
     /// @dev Get PackageID by Indexed value of stored data
     /// @param index Indexed Value
@@ -196,7 +201,11 @@ contract SupplyChain {
         return supplierRawProductInfo[msg.sender][index];
     }
 
-    function getPackageInfoById(address packageId) public view returns(
+    function getPackageIdByIndexS_SID(address supplierId, uint index) public view returns(address packageID) {
+        return supplierRawProductInfo[supplierId][index];
+    }
+
+    function getPackageInfoByIdS(address packageId) public view returns(
         bytes32 Des,
         bytes32 FN,
         bytes32 Loc,
@@ -207,7 +216,7 @@ contract SupplyChain {
         return RawMatrials(packageId).getSuppliedRawMatrials();
     }
 
-    function getPackageStatusById(address packageId) public view returns(
+    function getPackageStatusByIdS(address packageId) public view returns(
         uint
     ) {
         return RawMatrials(packageId).getRawMatrialsStatus();
@@ -218,8 +227,8 @@ contract SupplyChain {
     mapping(address => address[]) RawPackagesAtManufacturer;
 
     /// @notice
-    /// @dev Update Package / Madicine batch recieved status by ethier Manufacturer or Distributer
-    /// @param pid  PackageID or MadicineID
+    /// @dev Update Package / Product batch recieved status by ethier Manufacturer or Distributer
+    /// @param pid  PackageID or ProductID
     function  rawPackageReceived(
         address pid
     ) public {
@@ -229,6 +238,7 @@ contract SupplyChain {
         );
 
         RawMatrials(pid).receivedPackage(msg.sender);
+
         RawPackagesAtManufacturer[msg.sender].push(pid);
     }
 
@@ -240,6 +250,7 @@ contract SupplyChain {
             UsersDetails[msg.sender].role == roles.manufacturer,
             "Only manufacturer can call this function"
         );
+
         return RawPackagesAtManufacturer[msg.sender].length;
     }
 
@@ -247,83 +258,128 @@ contract SupplyChain {
     /// @dev Get PackageID by Indexed value of stored data
     /// @param index Indexed Value
     /// @return PackageID
-    function getPackageIDByIndexM(uint index) public view returns(address BatchID){
+    function getPackageIDByIndexM(uint index) public view returns(address PackageID){
         require(
             UsersDetails[msg.sender].role == roles.manufacturer,
             "Only manufacturer can call this function"
         );
+
         return RawPackagesAtManufacturer[msg.sender][index];
     }
 
+
     /// @notice
-    mapping(address => address[]) ManufactureredMadicineBatches;
-    event MadicineNewBatch(
+    mapping(address => address[]) ManufactureredProductBatches;
+
+    event ProductNewBatch(
         address indexed BatchId,
         address indexed Manufacturer,
-        address shipper,
         address indexed Receiver
     );
 
     /// @notice
-    /// @dev Create Madicine Batch
-    /// @param Des Description of madicine batch
-    /// @param RM RawMatrials Information
+    /// @dev Create Product Batch
+    /// @param Des Description of Product batch
     /// @param Quant Number of Units
-    /// @param Shpr Transporter Ethereum Network Address
     /// @param Rcvr Receiver Ethereum Network Address
-    /// @param RcvrType Receiver Type Ethier Wholesaler(1) or Distributer(2)
-    function manufacturMadicine(
-        bytes32 Des,
-        bytes32 RM,
+    function manufactureProduct(
+        string memory Des,
         uint Quant,
-        address Shpr,
-        address Rcvr,
-        uint RcvrType
-    ) public {
+        address Rcvr
+    ) public returns(address batchId){
         require(
             UsersDetails[msg.sender].role == roles.manufacturer,
             "Only manufacturer can call this function"
         );
-        require(
-            RcvrType != 0,
-            "Receiver Type must be define"
-        );
 
-        Madicine m = new Madicine(
+        Product m = new Product(
             msg.sender,
             Des,
-            RM,
             Quant,
-            Shpr,
-            Rcvr,
-            RcvrType
+            Rcvr
         );
 
-        ManufactureredMadicineBatches[msg.sender].push(address(m));
-        emit MadicineNewBatch(address(m), msg.sender, Shpr, Rcvr);
+        ManufactureredProductBatches[msg.sender].push(address(m));
+
+        emit ProductNewBatch(address(m), msg.sender, Rcvr);
+
+        return address(m);
+    }
+
+    function addMaterialToProduct(address batchId, address packageId) public {
+        require(
+            UsersDetails[msg.sender].role == roles.manufacturer,
+            "Only manufacturer can call this function"
+        );
+
+        Product m = Product(batchId);
+        m.addMaterial(packageId);
     }
 
     /// @notice
-    /// @dev Get Madicine Batch Count
+    /// @dev Get Product Batch Count
     /// @return Number of Batches
     function getBatchesCountM() public view returns (uint count){
         require(
             UsersDetails[msg.sender].role == roles.manufacturer,
             "Only Manufacturer Can call this function."
         );
-        return ManufactureredMadicineBatches[msg.sender].length;
+
+        return ManufactureredProductBatches[msg.sender].length;
     }
 
+    function getBatchesCountM_SID(address manufacturer) public view returns (uint count){
+        return ManufactureredProductBatches[manufacturer].length;
+    }
+
+
     /// @notice
-    /// @dev Get Madicine BatchID by indexed value of stored data
+    /// @dev Get Product BatchID by indexed value of stored data
     /// @param index Indexed Number
-    /// @return Madicine BatchID
-    function getBatchIdByIndexM(uint index) public view returns(address packageID) {
+    /// @return Product BatchID
+    function getBatchIdByIndexM(uint index) public view returns(address BathID) {
         require(
             UsersDetails[msg.sender].role == roles.manufacturer,
             "Only Manufacturer Can call this function."
         );
 
-        return ManufactureredMadicineBatches[msg.sender][index];
+        return ManufactureredProductBatches[msg.sender][index];
+    }
+
+    function getBatchIdByIndexM_SID(address manufacturer, uint index) public view returns(address BathID) {
+        return ManufactureredProductBatches[manufacturer][index];
+    }
+
+    function getProductInfoById(address batchId) public view returns(
+        address Manu,
+        string memory Des,
+        address[] memory RM,
+        uint Quant,
+        address Rcvr
+    ){
+        return Product(batchId).getProductInfo();
+    }
+
+    function getProductStatusById(address batchId) public view returns(
+        uint
+    ) {
+        return Product(batchId).getBatchIDStatus();
+    }
+
+/********************************************** Customer Section ******************************************/
+    /// @notice
+    mapping(address => address[]) ProductsAtCustomer;
+
+    function  productBatchReceived(
+        address bid
+    ) public {
+        require(
+            UsersDetails[msg.sender].role == roles.customer,
+            "Only customer can call this function"
+        );
+
+        Product(bid).receivedPackage(msg.sender);
+
+        ProductsAtCustomer[msg.sender].push(bid);
     }
 }

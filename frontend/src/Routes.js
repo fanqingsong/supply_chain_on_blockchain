@@ -4,6 +4,7 @@ import { DeviceList } from "./pages/DeviceList";
 import { UserList } from "./pages/UserConfig";
 import { Supplier } from "./pages/Supplier";
 import { Manufacturer } from "./pages/Manufacturer";
+import { Customer } from "./pages/Customer";
 import { Monitor } from "./pages/Monitor";
 
 const Routes = () => {
@@ -17,6 +18,9 @@ const Routes = () => {
       </Route>
       <Route path="/manufacturer" exact>
         <Manufacturer />
+      </Route>
+      <Route path="/customer" exact>
+        <Customer />
       </Route>
       <Route path="/monitor" exact>
         <Monitor />

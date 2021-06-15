@@ -136,6 +136,8 @@ export class UserList extends React.Component {
       return "supplier";
     } else if (role === 3) {
       return "manufacturer";
+    } else if (role === 4) {
+      return "customer";
     }
   }
 
@@ -241,6 +243,10 @@ export class UserList extends React.Component {
                       <Radio label="Manufacturer" 
                         onChange={this.onNewUserRoleChange.bind(this, 3)}
                         checked={newUserRole===3?true:false}
+                        />
+                      <Radio label="Customer" 
+                        onChange={this.onNewUserRoleChange.bind(this, 4)}
+                        checked={newUserRole===4?true:false}
                         />
                     </Box>
                   </Field>

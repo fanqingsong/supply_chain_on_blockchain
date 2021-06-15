@@ -415,8 +415,8 @@ export class Supplier extends React.Component {
     for(let i=0; i<packageCount; i++) {
         const packageId = await this._SupplyChain.getPackageIdByIndexS(i);
 
-        const packageInfo = await this._SupplyChain.getPackageInfoById(packageId);
-        const packageStatus = await this._SupplyChain.getPackageStatusById(packageId);
+        const packageInfo = await this._SupplyChain.getPackageInfoByIdS(packageId);
+        const packageStatus = await this._SupplyChain.getPackageStatusByIdS(packageId);
 
         console.log(packageId, packageInfo, packageStatus)
         packages.push({packageId, packageStatus, packageInfo})

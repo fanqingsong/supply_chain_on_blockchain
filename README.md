@@ -15,6 +15,9 @@ Supplier:
 Manufacturer:
 0x26C43a1D431A4e5eE86cD55Ed7Ef9Edf3641e901
 
+Customer:
+0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+
 
 # Buidler Hackathon Boilerplate
 

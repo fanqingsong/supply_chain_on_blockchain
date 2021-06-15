@@ -60,6 +60,16 @@ const Menus = (props) => {
                     </Box>
                 )}
 
+                {userRole===4 && (
+                    <Box>
+                        <Router_Link to="/customer">
+                            <Text fontSize="large" title="This link goes customer page">
+                                Customer
+                            </Text>
+                        </Router_Link>
+                    </Box>
+                )}
+
                 <Box>
                     <Router_Link to="/monitor">
                         <Text fontSize="large" title="This link goes manufacturer page">

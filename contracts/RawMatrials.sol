@@ -8,7 +8,7 @@ contract RawMatrials {
     /// @notice
     address Owner;
 
-    enum packageStatus { atcreator, delivered}
+    enum packageStatus { atcreator, received}
 
     /// @notice
     address productid;
@@ -100,7 +100,6 @@ contract RawMatrials {
     function receivedPackage(
         address manu
     ) public {
-
         require(
             manu == manufacturer,
             "Only Associate Manufacturer can call this function"
@@ -112,7 +111,5 @@ contract RawMatrials {
         );
 
         status = packageStatus(1);
-
-        // emit ShippmentUpdate(address(this),shipper,manufacturer,1,2);
     }
 }
