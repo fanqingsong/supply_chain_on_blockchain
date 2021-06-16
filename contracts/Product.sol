@@ -1,5 +1,8 @@
 pragma solidity >=0.4.25 <0.6.0;
 
+// We import this library to be able to use console.log
+import "@nomiclabs/buidler/console.sol";
+
 /********************************************** Product ******************************************/
 /// @title Product
 /// @notice
@@ -36,24 +39,57 @@ contract Product {
     /// @dev Create new Product Batch by Manufacturer
     /// @param Manu Manufacturer Ethereum Network Address
     /// @param Des Description of Product Batch
+    /// @param RM rawMaterials arrary for packageIds
     /// @param Quant Number of units
     /// @param Rcvr Receiver Ethereum Network Address
     constructor(
         address Manu,
         string memory Des,
+        address[] memory RM,
         uint Quant,
         address Rcvr
     ) public {
+        // We can print messages and values using console.log
+        console.log(
+            "call product (%s) by %s",
+            Des,
+            msg.sender
+        );
+
         Owner = Manu;
 
         manufacturer = Manu;
         description = Des;
+
+        console.log(
+            "call raw material len (%s) by %s",
+            RM.length,
+            msg.sender
+        );
+
+        for(uint i=0; i<RM.length; i++) {
+            console.log(
+                "call raw material (%s) by %s",
+                RM[i],
+                msg.sender
+            );
+        }
+
+        rawmatriales = new address[](RM.length);
+
+        for(uint i=0; i<RM.length; i++) {
+            rawmatriales[i] = RM[i];
+        }
+
+        // We can print messages and values using console.log
+        console.log(
+            "call after new product (%s) by %s",
+            Des,
+            msg.sender
+        );
+
         quantity = Quant;
         receiver = Rcvr;
-    }
-
-    function addMaterial(address packageId) public {
-        rawmatriales.push(packageId);
     }
 
     /// @notice

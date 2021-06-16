@@ -47,6 +47,7 @@ export class Manufacturer extends React.Component {
       // for creating new user
       newDescription: "BBU",
       newQuantity: 1,
+      newPackages: [],
       newCustomer: "",
 
       // for getting manufacturer users
@@ -85,6 +86,27 @@ export class Manufacturer extends React.Component {
     this.setState({"newQuantity": newQuantity})
   }
 
+  onNewPackagesChange(packageId){
+    console.log("packageId=", packageId);
+
+    let newPackages = this.state.newPackages;
+    let index = newPackages.indexOf(packageId);
+
+    console.log("before newPackages=", newPackages);
+
+    if (index >= 0) {
+      newPackages.splice(index, 1);
+    } else {
+      newPackages.push(packageId);
+    }
+
+    console.log("after newPackages=", newPackages);
+
+    this.setState({newPackages});
+
+    console.log("newPackages=", this.state.newPackages)
+  }
+
   onNewCustomerChange(ethAddress) {
     console.log("user change manufacturer to", ethAddress)
     let newCustomer = ethAddress;
@@ -95,11 +117,13 @@ export class Manufacturer extends React.Component {
   async onNewBatchSubmit(e) {
     let newDescription = this.state.newDescription;
     let newQuantity = this.state.newQuantity;
+    let newPackages = this.state.newPackages;
     let newCustomer = this.state.newCustomer;
 
     let newBatch = {
       newDescription,
       newQuantity,
+      newPackages,
       newCustomer
     }
 
@@ -170,16 +194,23 @@ export class Manufacturer extends React.Component {
 
   getBatchInfoStr(oneBatch) {
     let batchInfo = oneBatch.batchInfo;
+    console.log("+++++++++++++++++++++++");
     console.log(batchInfo);
 
+    let manufacturer = batchInfo.Manu;
     let description = batchInfo.Des;
+    let rawMaterials = batchInfo.RM;
     let quantity = batchInfo.Quant;
     let receiver = batchInfo.Rcvr;
+
+    let packages = rawMaterials.join(",");
 
     return `
       Description: ${description}
       Quantity: ${quantity}
+      Packages Supplied: ${packages}
       Receiver: ${receiver}
+      Manufacturer: ${manufacturer}
     `
   }
 
@@ -310,7 +341,20 @@ export class Manufacturer extends React.Component {
                   </Field>
                 </Box>
                 <Box width={[1, 1, 1]} px={3}>
-                  <Field label="Manufacturer" width={1}>
+                  <Field label="Packages Supplied"  width={1}>
+                    <React.Fragment>
+                    {
+                      SupplierPackageListData && SupplierPackageListData.packages.map((onePackage, index) => {
+                        return (
+                          <Checkbox key={index} label={onePackage.packageId} onClick={this.onNewPackagesChange.bind(this, onePackage.packageId)} />
+                        )
+                      })
+                    }
+                    </React.Fragment>
+                  </Field>
+                </Box>
+                <Box width={[1, 1, 1]} px={3}>
+                  <Field label="Customer" width={1}>
                     <Box required={true}>
                       {
                         UserListData && UserListData.customers.map((one_user, index)=>{
@@ -500,16 +544,17 @@ export class Manufacturer extends React.Component {
     this.setState({ ProductListData: { batches } });
   }
 
-  async _createBatch(newPackage) {
+  async _createBatch(newBatch) {
     try {
       this._dismissTransactionError();
 
-      let newDescription = newPackage.newDescription;
-      let newQuantity = newPackage.newQuantity;
-      let newCustomer = newPackage.newCustomer;
+      let newDescription = newBatch.newDescription;
+      let newQuantity = newBatch.newQuantity;
+      let newPackages = newBatch.newPackages;
+      let newCustomer = newBatch.newCustomer;
   
       const tx = await this._SupplyChain.manufactureProduct(
-        newDescription, newQuantity, newCustomer);
+        newDescription, newPackages, newQuantity, newCustomer);
 
       this.setState({ txBeingSent: tx.hash });
 

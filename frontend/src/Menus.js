@@ -30,6 +30,14 @@ const Menus = (props) => {
             <Heading>Menu</Heading>
 
             <Box pt={3}>
+                <Box>
+                    <Router_Link to="/overview">
+                        <Text fontSize="large" title="This link goes overview page">
+                            Overview
+                        </Text>
+                    </Router_Link>
+                </Box>
+
                 {userRole===1 && (
                     <Box>
                         <Router_Link to="/userconfig">
@@ -69,14 +77,6 @@ const Menus = (props) => {
                         </Router_Link>
                     </Box>
                 )}
-
-                <Box>
-                    <Router_Link to="/monitor">
-                        <Text fontSize="large" title="This link goes manufacturer page">
-                            Monitor
-                        </Text>
-                    </Router_Link>
-                </Box>
             </Box>
         </Card>
     );

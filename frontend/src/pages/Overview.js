@@ -16,6 +16,9 @@ import {
   Image,
   Card,
   Heading,
+  Icon,
+  MetaMaskButton,
+  ToastMessage,
   Form,
   Input,
   Select,
@@ -29,7 +32,7 @@ import {
 
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 
-export class Monitor extends React.Component {
+export class Overview extends React.Component {
   constructor(props) {
     super(props);
 
@@ -101,6 +104,12 @@ export class Monitor extends React.Component {
     return (
       <Box width={0.8} px={80} bg="Azure">
         <Box p={4}>
+          <ToastMessage
+            message={"This is an supplychain dapp based on ethereum blockchain network."}
+            secondaryMessage={"enjoy your self."}
+            my={3}
+          />
+
           <Box>
             <Form onSubmit={this.onFormSubmit}>
               <Flex mx={-3} flexWrap={"wrap"}>

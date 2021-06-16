@@ -5,11 +5,14 @@ import { UserList } from "./pages/UserConfig";
 import { Supplier } from "./pages/Supplier";
 import { Manufacturer } from "./pages/Manufacturer";
 import { Customer } from "./pages/Customer";
-import { Monitor } from "./pages/Monitor";
+import { Overview } from "./pages/Overview";
 
 const Routes = () => {
   return (
     <Switch>
+      <Route path="/overview" exact>
+        <Overview />
+      </Route>
       <Route path="/userconfig" exact>
         <UserList />
       </Route>
@@ -22,10 +25,7 @@ const Routes = () => {
       <Route path="/customer" exact>
         <Customer />
       </Route>
-      <Route path="/monitor" exact>
-        <Monitor />
-      </Route>
-      <Redirect to="/monitor" />
+      <Redirect to="/overview" />
     </Switch>
   );
 };

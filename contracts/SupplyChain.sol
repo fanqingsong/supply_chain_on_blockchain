@@ -3,6 +3,10 @@ pragma solidity >=0.4.25 <0.6.0;
 import './RawMatrials.sol';
 import './Product.sol';
 
+// We import this library to be able to use console.log
+import "@nomiclabs/buidler/console.sol";
+
+
 /// @title Blockchain : Pharmaceutical SupplyChain
 /// @author Kamal Kishor Mehra
 contract SupplyChain {
@@ -280,40 +284,66 @@ contract SupplyChain {
     /// @notice
     /// @dev Create Product Batch
     /// @param Des Description of Product batch
+    /// @param RM rawMaterials arrary for packageIds
     /// @param Quant Number of Units
     /// @param Rcvr Receiver Ethereum Network Address
     function manufactureProduct(
         string memory Des,
+        address[] memory RM,
         uint Quant,
         address Rcvr
-    ) public returns(address batchId){
+    ) public {
         require(
             UsersDetails[msg.sender].role == roles.manufacturer,
             "Only manufacturer can call this function"
         );
 
+        // We can print messages and values using console.log
+        console.log(
+            "call manufactureProduct (%s) by %s",
+            Des,
+            msg.sender
+        );
+
+        console.log(
+            "raw material len (%s) by %s",
+            RM.length,
+            msg.sender
+        );
+
+        for(uint i=0; i<RM.length; i++) {
+            console.log(
+                "raw material (%s) by %s",
+                RM[i],
+                msg.sender
+            );
+        }
+
         Product m = new Product(
             msg.sender,
             Des,
+            RM,
             Quant,
             Rcvr
+        );
+
+        // We can print messages and values using console.log
+        console.log(
+            "after new product (%s) by %s",
+            Des,
+            msg.sender
         );
 
         ManufactureredProductBatches[msg.sender].push(address(m));
 
         emit ProductNewBatch(address(m), msg.sender, Rcvr);
 
-        return address(m);
-    }
-
-    function addMaterialToProduct(address batchId, address packageId) public {
-        require(
-            UsersDetails[msg.sender].role == roles.manufacturer,
-            "Only manufacturer can call this function"
+        // We can print messages and values using console.log
+        console.log(
+            "over product (%s) by %s",
+            Des,
+            msg.sender
         );
-
-        Product m = Product(batchId);
-        m.addMaterial(packageId);
     }
 
     /// @notice
@@ -331,7 +361,6 @@ contract SupplyChain {
     function getBatchesCountM_SID(address manufacturer) public view returns (uint count){
         return ManufactureredProductBatches[manufacturer].length;
     }
-
 
     /// @notice
     /// @dev Get Product BatchID by indexed value of stored data
