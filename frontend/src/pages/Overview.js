@@ -151,17 +151,17 @@ export class Overview extends React.Component {
     console.log(ProductPackageListData);
 
     return (
-      <Box width={0.8} px={80} bg="Azure">
+      <Box width={1} px={80} bg="Azure">
         <Box p={4}>
           <Box>
             <Heading as={"h3"}>Inspect Product</Heading>
-            <Card>
+            {/* <Card> */}
               <Box m={1}>
                 <Flash my={3} variant="info">
                   Please select one product to inspect it, and see the flowchart of supply in the below.
                 </Flash>
-                <Box mt={1}>
-                  <Table width={1}>
+                {/* <Box mt={1}> */}
+                  <Table mt={1}>
                     <thead>
                       <tr>
                         <th width={0.2}>Batch Address</th>
@@ -185,7 +185,7 @@ export class Overview extends React.Component {
                                     </Text>
                                   </td>
                                   <td>
-                                    <Button size="small" mr={3} disabled={oneBatch.batchStatus.toNumber()===1} onClick={this.onManufacturerProductInspect.bind(this, oneBatch)}>
+                                    <Button size="small" mr={3} onClick={this.onManufacturerProductInspect.bind(this, oneBatch)}>
                                       Inspect
                                     </Button>
                                   </td>
@@ -201,9 +201,9 @@ export class Overview extends React.Component {
                       )}
                     </tbody>
                   </Table>
-                </Box>
+                {/* </Box> */}
               </Box>
-            </Card>
+            {/* </Card> */}
           </Box>      
 
           <Box mt={4}>
@@ -216,7 +216,7 @@ export class Overview extends React.Component {
                   background="white"
                   arrowStart={false}
                   arrowEnd={true}
-                  style={{ width:'47vw', height:'50vh' }}
+                  // style={{ width:'47vw', height:'50vh' }}
                   className="nodrag"
                 >
                   {

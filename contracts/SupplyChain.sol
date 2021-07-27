@@ -20,7 +20,18 @@ contract SupplyChain {
         Owner = msg.sender;
 
         // add owner as the admin user
-        registerUser(Owner, "Admin", "Nanking", uint(roles.admin));
+        registerUser(Owner, "Admin", "Nanjing", uint(roles.admin));
+
+        // for demo, set three account with different roles: supplier/manufacturer/customer
+        // https://etherscan.io/address/0x84fae3d3cba24a97817b2a18c2421d462dbbce9f
+        address qualcomAddr = address(0x84Fae3d3Cba24A97817b2a18c2421d462dbBCe9f);
+        registerUser(qualcomAddr, "Qualcom", "San Diego", uint(roles.supplier));
+
+        address encAddr = address(0x26C43a1D431A4e5eE86cD55Ed7Ef9Edf3641e901);
+        registerUser(encAddr, "ENC", "Nanjing", uint(roles.manufacturer));
+
+        address cmccAddr = address(0x68dfc526037E9030c8F813D014919CC89E7d4d74);
+        registerUser(cmccAddr, "CMCC", "Beijing", uint(roles.customer));
     }
 
     /// @dev Validate Owner

@@ -16,7 +16,7 @@ Manufacturer:
 0x26C43a1D431A4e5eE86cD55Ed7Ef9Edf3641e901
 
 Customer:
-0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+0x68dfc526037e9030c8f813d014919cc89e7d4d74
 
 
 # Buidler Hackathon Boilerplate
@@ -51,6 +51,7 @@ Then, on a new terminal, go to the repository's root folder and run this to
 deploy your contract:
 
 ```sh
+npx builder compile
 npx buidler run scripts/deploy.js --network localhost
 ```
 
