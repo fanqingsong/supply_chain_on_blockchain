@@ -38,7 +38,7 @@ const Menus = (props) => {
                     </Router_Link>
                 </Box>
 
-                {userRole===1 && (
+                {/* {userRole===1 && ( */}
                     <Box>
                         <Router_Link to="/userconfig">
                             <Text fontSize="large" title="This link goes supplier page">
@@ -46,9 +46,9 @@ const Menus = (props) => {
                             </Text>
                         </Router_Link>
                     </Box>
-                )}
+                {/* )} */}
 
-                {userRole===2 && (
+                {/* {userRole===2 && ( */}
                     <Box>
                         <Router_Link to="/supplier">
                             <Text fontSize="large" title="This link goes supplier page">
@@ -56,9 +56,9 @@ const Menus = (props) => {
                             </Text>
                         </Router_Link>
                     </Box>
-                )}
+                {/* )} */}
 
-                {userRole===3 && (
+                {/* {userRole===3 && ( */}
                     <Box>
                         <Router_Link to="/manufacturer">
                             <Text fontSize="large" title="This link goes manufacturer page">
@@ -66,9 +66,9 @@ const Menus = (props) => {
                             </Text>
                         </Router_Link>
                     </Box>
-                )}
+                {/* )} */}
 
-                {userRole===4 && (
+                {/* {userRole===4 && ( */}
                     <Box>
                         <Router_Link to="/customer">
                             <Text fontSize="large" title="This link goes customer page">
@@ -76,7 +76,7 @@ const Menus = (props) => {
                             </Text>
                         </Router_Link>
                     </Box>
-                )}
+                {/* )} */}
             </Box>
         </Card>
     );

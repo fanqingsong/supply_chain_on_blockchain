@@ -155,12 +155,10 @@ export class Overview extends React.Component {
         <Box p={4}>
           <Box>
             <Heading as={"h3"}>Inspect Product</Heading>
-            {/* <Card> */}
               <Box m={1}>
                 <Flash my={3} variant="info">
                   Please select one product to inspect it, and see the flowchart of supply in the below.
                 </Flash>
-                {/* <Box mt={1}> */}
                   <Table mt={1}>
                     <thead>
                       <tr>
@@ -201,9 +199,7 @@ export class Overview extends React.Component {
                       )}
                     </tbody>
                   </Table>
-                {/* </Box> */}
               </Box>
-            {/* </Card> */}
           </Box>      
 
           <Box mt={4}>
