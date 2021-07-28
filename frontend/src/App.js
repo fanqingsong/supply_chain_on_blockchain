@@ -30,6 +30,7 @@ import {
   Radio
 } from "rimble-ui";
 
+import { Eth } from '@rimble/icons'; 
 
 import blockchainImage from "./asset/Blockchain-Icon.png"
 
@@ -126,7 +127,7 @@ export class Dapp extends React.Component {
 
               <Box>
                 <Text mb={4}>
-                  Welcome to Supply Chain System, Powered by ehtereum(BlockChain Technology).
+                  Welcome to Supply Chain System, Powered by EHTEREUM Platform(BlockChain Technology<Eth color="black" size="20" />).
                 </Text>
               </Box>
             </Card>

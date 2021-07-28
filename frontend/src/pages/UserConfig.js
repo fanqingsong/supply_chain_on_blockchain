@@ -161,7 +161,7 @@ export class UserList extends React.Component {
                 <tr>
                   <th width={0.2}>Name</th>
                   <th width={0.2}>Location</th>
-                  <th width={0.4}>EtherAddress</th>
+                  <th width={0.2}>EtherAddress</th>
                   <th width={0.2}>Role</th>
                   <th width={0.2}>Action</th>
                 </tr>

@@ -100,19 +100,28 @@ export class Manufacturer extends React.Component {
     this.setState({"newQuantity": newQuantity})
   }
 
-  onNewPackagesChange(packageId){
-    console.log("packageId=", packageId);
+  onNewPackagesChange(packageId, e){
+    console.log("event onNewPackagesChange called with packageId=", packageId);
+    console.log("checked = ", e.target.checked)
 
     let newPackages = this.state.newPackages;
     let index = newPackages.indexOf(packageId);
+    let packageChecked = e.target.checked;
 
     console.log("before newPackages=", newPackages);
 
-    if (index >= 0) {
-      newPackages.splice(index, 1);
+    if(packageChecked) {
+      // id doesn't exist in state, add
+      if (index < 0) {
+        newPackages.push(packageId);
+      }  
     } else {
-      newPackages.push(packageId);
+      // id exist in state, remove
+      if (index >= 0) {
+        newPackages.splice(index, 1);
+      }
     }
+
 
     console.log("after newPackages=", newPackages);
 
@@ -369,7 +378,7 @@ export class Manufacturer extends React.Component {
                     {
                       SupplierPackageListData && SupplierPackageListData.packages.map((onePackage, index) => {
                         return (
-                          <Checkbox key={index} label={onePackage.packageId} onClick={this.onNewPackagesChange.bind(this, onePackage.packageId)} />
+                          <Checkbox key={index} label={onePackage.packageId} onChange={this.onNewPackagesChange.bind(this, onePackage.packageId)}/>
                         )
                       })
                     }

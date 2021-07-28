@@ -34,7 +34,6 @@ import {
   Radio
 } from "rimble-ui";
 
-
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 
 export class Overview extends React.Component {
@@ -212,26 +211,26 @@ export class Overview extends React.Component {
                   background="white"
                   arrowStart={false}
                   arrowEnd={true}
-                  // style={{ width:'47vw', height:'50vh' }}
-                  className="nodrag"
+                  style={{ width:'800px', height:'50vh' }}
+                  // className="nodrag"
                 >
                   {
                     ProductPackageListData 
-                    && ProductPackageListData.map((onePackage)=>{
+                    && ProductPackageListData.map((onePackage, index)=>{
                       return (
                         <Flowpoint 
                           key="point_a" 
-                          theme="indigo"
+                          theme="grey"
                           variant="filled"
-                          startPosition={{ x:50, y:100 }}
+                          startPosition={{ x:50, y:100 + index*150 }}
                           width={300}
                           height={100}     
-                          dragX={false}
-                          dragY={false}
+                          // dragX={false}
+                          // dragY={false}
                           outputs={[oneBatch.batchId]} 
                           className="nodrag">
                           {
-                            "Supplier:"+ onePackage.packageInfo.Splr 
+                            "<Material>Supplier:"+ onePackage.packageInfo.Splr 
                             + "\r\n"
                             + "Description:" + onePackage.packageInfo.Des
                             + "\r\n"
@@ -254,16 +253,16 @@ export class Overview extends React.Component {
                   }
                   <Flowpoint 
                     key={oneBatch.batchId} 
-                    theme="indigo"
+                    theme="blue-grey"
                     variant="filled"
-                    dragX={false}
-                    dragY={false}
-                    startPosition={{ x:450, y:100 }}
+                    // dragX={false}
+                    // dragY={false}
+                    startPosition={{ x:450, y:200 }}
                     width={300}
                     height={100}
                     className="nodrag" >
                     {
-                      "Manufacturer:"+ oneBatch.batchInfo.Manu 
+                      "<Production>Manufacturer:"+ oneBatch.batchInfo.Manu 
                       + "\r\n"
                       + "Description:" + oneBatch.batchInfo.Des
                       + "\r\n"
