@@ -1,6 +1,5 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import { DeviceList } from "./pages/DeviceList";
 import { UserList } from "./pages/UserConfig";
 import { Supplier } from "./pages/Supplier";
 import { Manufacturer } from "./pages/Manufacturer";

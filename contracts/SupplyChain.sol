@@ -241,6 +241,10 @@ contract SupplyChain {
     /// @notice
     mapping(address => address[]) RawPackagesAtManufacturer;
 
+    event PackageReceived(
+        address indexed packageId
+    );
+
     /// @notice
     /// @dev Update Package / Product batch recieved status by ethier Manufacturer or Distributer
     /// @param pid  PackageID or ProductID
@@ -255,6 +259,8 @@ contract SupplyChain {
         RawMatrials(pid).receivedPackage(msg.sender);
 
         RawPackagesAtManufacturer[msg.sender].push(pid);
+
+        emit PackageReceived(address(pid));
     }
 
     /// @notice
@@ -410,6 +416,10 @@ contract SupplyChain {
     /// @notice
     mapping(address => address[]) ProductsAtCustomer;
 
+    event BatchReceived(
+        address indexed BatchId
+    );
+
     function  productBatchReceived(
         address bid
     ) public {
@@ -421,5 +431,7 @@ contract SupplyChain {
         Product(bid).receivedPackage(msg.sender);
 
         ProductsAtCustomer[msg.sender].push(bid);
+
+        emit BatchReceived(address(bid));
     }
 }

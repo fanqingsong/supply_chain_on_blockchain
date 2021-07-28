@@ -25,6 +25,7 @@ import {
   Button,
   Text,
   Checkbox,
+  ToastMessage,
   Radio
 } from "rimble-ui";
 
@@ -131,7 +132,18 @@ export class Supplier extends React.Component {
     // this.setState({'newUserEtherAddress':""})
     // this.setState({'newUserRole':1})
 
-    this._getPackageListData();
+    // await this._getPackageListData();
+
+    window.toastProvider.addMessage("Processing transaction...", {
+      secondaryMessage: "Please wait a moment.",
+      // actionHref:
+      //   "https://etherscan.io/tx/0xcbc921418c360b03b96585ae16f906cbd48c8d6c2cc7b82c6db430390a9fcfed",
+      // actionText: "Check",
+      variant: "processing"
+    })
+
+    //RawSupplyInit
+    // window.toastProvider.removeMessage();
   }
 
   onFormSubmit(e) {
@@ -193,6 +205,7 @@ export class Supplier extends React.Component {
     return (
       <Box width={1}>
         <Box p={4} bg="Azure">
+          <ToastMessage.Provider ref={node => (window.toastProvider = node)} />
           <Box>
             <Heading as={"h3"}>Package List</Heading>
             <Table width={1}>
@@ -390,6 +403,13 @@ export class Supplier extends React.Component {
       SupplyChainArtifact.abi,
       this._provider.getSigner(0)
     );
+
+    this._SupplyChain.on("RawSupplyInit", ()=>{
+      console.log("!!!!! event called by RawSupplyInit")
+      window.toastProvider.removeMessage();
+
+      this._getPackageListData();
+    })
   }
 
   _startPollingData() {

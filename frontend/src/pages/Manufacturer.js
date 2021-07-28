@@ -25,6 +25,7 @@ import {
   Button,
   Text,
   Checkbox,
+  ToastMessage,
   Radio
 } from "rimble-ui";
 
@@ -71,7 +72,20 @@ export class Manufacturer extends React.Component {
   async onSupplierPackageReceive(packageId) {
     await this._SupplyChain.rawPackageReceived(packageId);
 
-    this._getSupplierPackageListData()
+    // actually data maybe not commited to blockchain now
+    // await this._getSupplierPackageListData()
+
+    console.log(`after get supplier package list data`);
+
+    window.toastProvider.addMessage("Processing transaction...", {
+      secondaryMessage: "Please wait a moment.",
+      // actionHref:
+      //   "https://etherscan.io/tx/0xcbc921418c360b03b96585ae16f906cbd48c8d6c2cc7b82c6db430390a9fcfed",
+      // actionText: "Check",
+      variant: "processing"
+    })
+
+    // window.toastProvider.removeMessage();
   }
 
   onNewDescriptionChange(e) {
@@ -132,7 +146,15 @@ export class Manufacturer extends React.Component {
 
     await this._createBatch(newBatch);
 
-    this._getProductListData();
+    // await this._getProductListData();
+
+    window.toastProvider.addMessage("Processing transaction...", {
+      secondaryMessage: "Please wait a moment.",
+      // actionHref:
+      //   "https://etherscan.io/tx/0xcbc921418c360b03b96585ae16f906cbd48c8d6c2cc7b82c6db430390a9fcfed",
+      // actionText: "Check",
+      variant: "processing"
+    })
   }
 
   onFormSubmit(e) {
@@ -230,6 +252,7 @@ export class Manufacturer extends React.Component {
     return (
       <Box width={1}>
         <Box p={4} bg="Azure">
+          <ToastMessage.Provider ref={node => (window.toastProvider = node)} />
           <Box>
             <Heading as={"h3"}>My Packages from Supplier</Heading>
             <Table width={1}>
@@ -476,6 +499,20 @@ export class Manufacturer extends React.Component {
       SupplyChainArtifact.abi,
       this._provider.getSigner(0)
     );
+
+    this._SupplyChain.on("PackageReceived", ()=>{
+      console.log("!!!!! event called by PackageReceived")
+      window.toastProvider.removeMessage();
+
+      this._getSupplierPackageListData();
+    })
+
+    this._SupplyChain.on("ProductNewBatch", ()=>{
+      console.log("!!!!! event called by ProductNewBatch")
+      window.toastProvider.removeMessage();
+
+      this._getProductListData();
+    })
   }
 
   _startPollingData() {
@@ -491,6 +528,10 @@ export class Manufacturer extends React.Component {
 
   async _getSupplierPackageListData() {
     let UserListData = this.state.UserListData;
+    if(!UserListData) {
+      return;
+    }
+
     let suppliers = UserListData.suppliers;
 
     let packages = []

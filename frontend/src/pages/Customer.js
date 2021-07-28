@@ -25,6 +25,7 @@ import {
   Button,
   Text,
   Checkbox,
+  ToastMessage,
   Radio
 } from "rimble-ui";
 
@@ -56,6 +57,14 @@ export class Customer extends React.Component {
     await this._SupplyChain.productBatchReceived(batchId);
 
     this._getManufacturerProductListData()
+
+    window.toastProvider.addMessage("Processing transaction...", {
+      secondaryMessage: "Please wait a moment.",
+      // actionHref:
+      //   "https://etherscan.io/tx/0xcbc921418c360b03b96585ae16f906cbd48c8d6c2cc7b82c6db430390a9fcfed",
+      // actionText: "Check",
+      variant: "processing"
+    })
   }
 
   translateBatchStatus(batchStatus) {
@@ -94,6 +103,7 @@ export class Customer extends React.Component {
     return (
       <Box width={1}>
         <Box p={4} bg="Azure">
+          <ToastMessage.Provider ref={node => (window.toastProvider = node)} />
           <Box>
             <Heading as={"h3"}>My Products from Manufacturer</Heading>
             <Table width={1}>
@@ -234,6 +244,13 @@ export class Customer extends React.Component {
       SupplyChainArtifact.abi,
       this._provider.getSigner(0)
     );
+
+    this._SupplyChain.on("BatchReceived", ()=>{
+      console.log("!!!!! event called by BatchReceived")
+      window.toastProvider.removeMessage();
+
+      this._getManufacturerProductListData();
+    })
   }
 
   _startPollingData() {
@@ -249,6 +266,10 @@ export class Customer extends React.Component {
 
   async _getManufacturerProductListData() {
     let UserListData = this.state.UserListData;
+    if(!UserListData){
+      return;
+    }
+
     let manufacturers = UserListData.manufacturers;
 
     let batches = []
