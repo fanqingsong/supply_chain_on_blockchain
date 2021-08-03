@@ -6,6 +6,13 @@ https://kamalkishorm.github.io/Blockchain_SupplyChain/
 
 # snapshot
 
+## Business Model
+supplier sell components as package to manufacturer,
+manufacturer assemble it in its product,
+manufacturer sell product as batch.
+
+![business model](./snapshot/flowchart.png)
+
 ## User Config
 ![user config](./snapshot/userconfig.png)
 
