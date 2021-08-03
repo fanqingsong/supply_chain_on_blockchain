@@ -4,6 +4,19 @@ This project will implement supplier and manufactor part to demo the blockchain 
 
 https://kamalkishorm.github.io/Blockchain_SupplyChain/
 
+# snapshot
+
+## User Config
+![user config](./snapshot/userconfig.png)
+
+## Supplier
+![supplier](./snapshot/supplier.png)
+
+## Manufacturer
+![manufacturer](./snapshot/manufacturer.png)
+
+## Customer
+![customer](./snapshot/customer.png)
 
 # Requirements
 
@@ -113,3 +126,6 @@ this repository or [our Telegram Support Group](https://t.me/BuidlerSupport).
 Also you can [follow Nomic Labs on Twitter](https://twitter.com/nomiclabs).
 
 **Happy _buidling_!**
+
+
+
